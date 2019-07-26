@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Flee" Version="1.2.2" />
+    <PackageReference Include="PackUtils" Version="1.0.28" />
+    <PackageReference Include="RestSharp" Version="106.6.9" />
+    <PackageReference Include="Stone.RabbitMQ.Abstraction" Version="1.7.6-rc1" />
+    <PackageReference Include="YamlDotNet" Version="6.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="http_alert.yml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
