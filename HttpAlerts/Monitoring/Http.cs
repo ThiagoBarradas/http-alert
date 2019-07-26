@@ -18,7 +18,7 @@ namespace HttpAlerts.Monitoring
             this.HttpConfiguration = httpConfiguration;
         }
 
-        public string GetResponse()
+        public string GetResponse(string logPrefix)
         {
             var restClient = new RestClient(this.HttpConfiguration.Url);
 
@@ -30,6 +30,11 @@ namespace HttpAlerts.Monitoring
 
             var restRequest = new RestRequest(Method.GET);
 
+            if (this.HttpConfiguration.TimeoutSeconds > 0)
+            {
+                restRequest.Timeout = this.HttpConfiguration.TimeoutSeconds * 1000;
+            }
+            
             if (this.HttpConfiguration.Headers?.Any() == true)
             {
                 foreach(var header in this.HttpConfiguration.Headers)
@@ -42,9 +47,9 @@ namespace HttpAlerts.Monitoring
 
             if (restResponse.ErrorException != null || restResponse.StatusCode != HttpStatusCode.OK)
             {
-                Console.WriteLine("### MONITORING ERROR!");
-                Console.WriteLine("ErrorException: {0}", restResponse.ErrorException?.Message);
-                Console.WriteLine("StatusCode: {0}", restResponse.StatusDescription);
+                Console.WriteLine("{0}### MONITORING ERROR!", logPrefix);
+                Console.WriteLine("{0}ErrorException: {1}", logPrefix, restResponse.ErrorException?.Message);
+                Console.WriteLine("{0} HTTP.GetResponse() - StatusCode: {1}", logPrefix, restResponse.StatusDescription);
                 return null;
             }
 

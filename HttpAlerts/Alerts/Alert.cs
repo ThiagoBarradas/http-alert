@@ -21,9 +21,11 @@ namespace HttpAlerts.Alerts
 
         public void AlertMe(string title, string content, string logPrefix = "")
         {
-            Console.WriteLine("{0}ALERT! | F****CK!!!!", logPrefix);
-            Console.WriteLine("{0}ALERT! | - {1}", logPrefix, title);
-            Console.WriteLine("{0}ALERT! | - {1}", logPrefix, content);
+            logPrefix = string.Format("{0}[{1}] ", logPrefix, this.Channel.Name);
+
+            Console.WriteLine("{0}Channel Alert! | F****CK!!!!", logPrefix);
+            Console.WriteLine("{0}Channel Alert! | - {1}", logPrefix, title);
+            Console.WriteLine("{0}Channel Alert! | - {1}", logPrefix, content);
 
             if (this.Channel.Slack != null)
             {

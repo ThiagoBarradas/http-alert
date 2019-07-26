@@ -4,14 +4,14 @@ notifications:
     slack:
       url: https://hooks.slack.com/services/XXXXXXX
     pushover:
-      token: xxxxxxxxxxxxxxxxxxxxxxxxxxx
-      user: xxxxxxxxxxxxxxxxxxxxxxxxxxx
+      token: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      user: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
   - name: team_b_channels 
     slack:
       url: https://hooks.slack.com/services/YYYYYY
     pushover:
-      token: yyyyyyyyyyyyyyyyyyyyyyyyyy
-      user: yyyyyyyyyyyyyyyyyyyyyyyyyy
+      token: yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+      user: yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
   - name: all_company 
     slack:
       url: https://hooks.slack.com/services/ZZZZZZZ
@@ -37,12 +37,11 @@ http_configs:
       error_title: 'Very high messages count for {vhost}/{name} '
       error_message: 'Messages is very high ({messages} messages) with publish rate {message_stats.publish_details.rate}/s and deliver rate {message_stats.deliver_get_details.rate}/s'
       alert_in:
-      - Slack
-      - Pushover
+      - team_a_channels
       alert_when_exception: true
     - condition: '"{state}" = "idle"'
       error_title: 'Very low messages count for {vhost}/{name} '
       error_message: 'Messages is very low ({messages} messages) with publish rate {message_stats.publish_details.rate}/s and deliver rate {message_stats.deliver_get_details.rate}/s'
       alert_in:
-      - Slack
+      - team_b_channels
       alert_when_exception: true

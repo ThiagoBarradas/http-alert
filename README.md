@@ -14,7 +14,103 @@ https://hub.docker.com/r/thiagobarradas/http-alert
 
 ## http_alert.yml
 
-:construction:
+```
+# notification channels 
+notifications:
+  - name: team_a_channels 
+    slack:
+      url: https://hooks.slack.com/services/XXXXXXX
+    pushover:
+      token: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      user: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  - name: team_b_channels 
+    slack:
+      url: https://hooks.slack.com/services/YYYYYY
+    pushover:
+      token: yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+      user: yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
+  - name: all_company 
+    slack:
+      url: https://hooks.slack.com/services/ZZZZZZZ
+
+# monitoring config collection
+http_configs:
+  # first config
+  - code: xxx-monitor
+    url: http://xxx.yyy.com/resource
+    user: my-basic-auth-user
+    pass: my-basic-auth-pass
+    timeout_seconds: 60
+    headers:
+      Application: HttpMonitoring
+    stop_in_first_alert: false
+    alert_in:
+    - team_a_channels
+    - all_company
+    alert_when_exception: true
+
+    # rules to validate http response
+    rules:
+    - condition: '"{state}" = "running"'
+      error_title: 'Very high messages count for {vhost}/{name} '
+      error_message: 'Messages is very high ({messages} messages) with publish rate {message_stats.publish_details.rate}/s and deliver rate {message_stats.deliver_get_details.rate}/s'
+      alert_in:
+      - team_a_channels
+      alert_when_exception: true
+    - condition: '"{state}" = "idle"'
+      error_title: 'Very low messages count for {vhost}/{name} '
+      error_message: 'Messages is very low ({messages} messages) with publish rate {message_stats.publish_details.rate}/s and deliver rate {message_stats.deliver_get_details.rate}/s'
+      alert_in:
+      - team_b_channels
+      alert_when_exception: true
+  
+  # second config
+  - code: yyy-monitor
+    url: http://xxx.yyy.com/resource
+    user: my-basic-auth-user
+    pass: my-basic-auth-pass
+    timeout_seconds: 60
+    headers:
+      Application: HttpMonitoring
+    stop_in_first_alert: false
+    alert_in:
+    - team_a_channels
+    - all_company
+    alert_when_exception: true
+
+    # rules to validate http response
+    rules:
+    - condition: '"{state}" = "running"'
+      error_title: 'Very high messages count for {vhost}/{name} '
+      error_message: 'Messages is very high ({messages} messages) with publish rate {message_stats.publish_details.rate}/s and deliver rate {message_stats.deliver_get_details.rate}/s'
+      alert_in:
+      - team_a_channels
+      alert_when_exception: true
+    - condition: '"{state}" = "idle"'
+      error_title: 'Very low messages count for {vhost}/{name} '
+      error_message: 'Messages is very low ({messages} messages) with publish rate {message_stats.publish_details.rate}/s and deliver rate {message_stats.deliver_get_details.rate}/s'
+      alert_in:
+      - team_b_channels
+      alert_when_exception: true
+```
+
+see here: [http_alert.yml](HttpAlerts/http_alert.yml);
+
+## Conditions /  Rules
+
+We use [Flee](https://github.com/mparlak/Flee/wiki) to parser conditions expressions. Write conditions in your format using any json property path;
+
+Samples:
+
+- `"{state}" = "running"` string equals 
+- `"{state}" != "running"` string not equals 
+- `{messages.count} > 10` number gt
+- `{messages.count} = 10` number equals
+- `{messages.count} >= 10` number gte
+- `{messages.count} < 10` number lt
+- `{messages.count} <= 10` number lte
+- `"{state}" = "running" OR {count} > 10` or operation
+- `"{state}" = "running" AND {count} > 10` and operation
 
 ## How can I contribute?
 

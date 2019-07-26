@@ -44,18 +44,18 @@ namespace HttpAlerts
 
             Http http = new Http(httpConfig);
 
-            List<Alert> alerts = channels
-                .Where(channel => httpConfig.AlertIn.Contains(channel.Name))
-                .Select(channel => new Alert(channel))
-                .ToList();
-
             try
             {
-                var response = http.GetResponse();
+                var response = http.GetResponse(logPrefix);
                 JObject responseJObj = JObject.Parse(response);
 
                 foreach (var rule in httpConfig.Rules)
                 {
+                    List<Alert> alerts = channels
+                       .Where(channel => rule.AlertIn.Contains(channel.Name))
+                       .Select(channel => new Alert(channel))
+                       .ToList();
+
                     var ruleLogPrefix = string.Format("{0}[{1}] ", logPrefix, rule.Condition);
 
                     try
@@ -84,6 +84,11 @@ namespace HttpAlerts
             {
                 if (httpConfig.AlertWhenException)
                 {
+                    List<Alert> alerts = channels
+                       .Where(channel => httpConfig.AlertIn.Contains(channel.Name))
+                       .Select(channel => new Alert(channel))
+                       .ToList();
+
                     var title = string.Format("{0} Config Exception: ", logPrefix);
                     alerts.AlertMe(title, ex.Message, logPrefix);
                 }
@@ -92,7 +97,6 @@ namespace HttpAlerts
             }
 
             Console.WriteLine("{0}================ HTTP Monitoring End ====================", logPrefix);
-            Console.WriteLine();
         }
 
         public static void AlertMe(this List<Alert> alerts, string title, string content, string logPrefix)
