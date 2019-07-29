@@ -47,10 +47,13 @@ namespace HttpAlerts.Monitoring
 
             if (restResponse.ErrorException != null || restResponse.StatusCode != HttpStatusCode.OK)
             {
+                var error = restResponse.ErrorException?.Message ?? restResponse.StatusDescription;
+                error = string.Format("HTTP.GetResponse() Error \"{0}\" with Status Code: {1}", error, restResponse.StatusCode);
+
                 Console.WriteLine("{0}### MONITORING ERROR!", logPrefix);
-                Console.WriteLine("{0}ErrorException: {1}", logPrefix, restResponse.ErrorException?.Message);
-                Console.WriteLine("{0} HTTP.GetResponse() - StatusCode: {1}", logPrefix, restResponse.StatusDescription);
-                return null;
+                Console.WriteLine("{0}{1}", logPrefix, error);
+
+                throw new Exception(error);
             }
 
             return restResponse.Content;

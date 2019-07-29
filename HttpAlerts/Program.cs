@@ -47,6 +47,7 @@ namespace HttpAlerts
             try
             {
                 var response = http.GetResponse(logPrefix);
+
                 JObject responseJObj = JObject.Parse(response);
 
                 foreach (var rule in httpConfig.Rules)
