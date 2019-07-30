@@ -2,8 +2,10 @@
 {
     public class PushoverConfiguration
     {
-        public object Token { get; internal set; }
+        public string Token { get; set; }
 
-        public object User { get; internal set; }
+        public string User { get; set; }
+
+        public int? Priority { get; set; }
     }
 }

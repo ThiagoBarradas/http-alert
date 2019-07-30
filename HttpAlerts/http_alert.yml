@@ -6,6 +6,7 @@ notifications:
     pushover:
       token: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
       user: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+      priority: 2 # -2, -1, 1, 2
   - name: team_b_channels 
     slack:
       url: https://hooks.slack.com/services/YYYYYY

@@ -29,6 +29,7 @@ namespace HttpAlerts.Alerts
             {
                 token = this.PushoverConfiguration.Token,
                 user = this.PushoverConfiguration.User,
+                priority = (this.PushoverConfiguration.Priority ?? -1),
                 title = title,
                 message = content
             });
