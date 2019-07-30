@@ -7,5 +7,9 @@
         public string User { get; set; }
 
         public int? Priority { get; set; }
+
+        public int? Expire { get; set; }
+
+        public int? Retry { get; set; }
     }
 }

@@ -7,6 +7,8 @@ notifications:
       token: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
       user: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
       priority: 2 # -2, -1, 1, 2
+      expire: 3600 # max value 10800 (3h)
+      retry: 60 # min value 30
   - name: team_b_channels 
     slack:
       url: https://hooks.slack.com/services/YYYYYY

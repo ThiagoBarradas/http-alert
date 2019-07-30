@@ -23,6 +23,14 @@ namespace HttpAlerts.Alerts
                 return;
             }
 
+            int? expire = null;
+            int? retry = null;
+            if (this.PushoverConfiguration.Priority == 2)
+            {
+                expire = this.PushoverConfiguration.Expire ?? 10800;
+                retry = this.PushoverConfiguration.Retry ?? 60;
+            }
+
             var restClient = new RestClient(PushoverAPI);
             RestRequest restRequest = new RestRequest(Method.POST);
             restRequest.AddJsonBody(new
@@ -30,6 +38,8 @@ namespace HttpAlerts.Alerts
                 token = this.PushoverConfiguration.Token,
                 user = this.PushoverConfiguration.User,
                 priority = (this.PushoverConfiguration.Priority ?? -1),
+                expire,
+                retry,
                 title = title,
                 message = content
             });
